@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import BeatLoader from "react-spinners/BeatLoader";
 import ClipLoader from "react-spinners/ClipLoader";
 import { toast } from "react-toastify";
+import { backendUrl } from "../constants/constant";
 
 const Retweet = () => {
   const [tweetId, setTweetId] = useState("");
@@ -10,7 +11,6 @@ const Retweet = () => {
   const [previewLoading, setPreviewLoading] = useState(false);
   const tweetIdRef = useRef();
 
-  const backendUrl = "http://localhost:5000";
 
   const retweet = async () => {
     if (tweetIdRef.current.value.length < 5) {

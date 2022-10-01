@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import BeatLoader from "react-spinners/BeatLoader";
+import { backendUrl } from "../constants/constant";
 
 const ScheduleTweet = () => {
   const [tweetText, setTweet] = useState("");
@@ -10,18 +11,17 @@ const ScheduleTweet = () => {
   const scheduleRef = useRef();
   const textareaRef = useRef();
 
-//   const backendUrl = "http://localhost:5000";
   const resizeTextArea = () => {
     textareaRef.current.style.height = "auto";
     textareaRef.current.style.height =
       textareaRef.current.scrollHeight + 5 + "px";
   };
 
-//   const reset = () => {
-//     emptyFile();
-//     setTweet("");
-//     textareaRef.current.value = null;
-//   };
+  const reset = () => {
+    emptyFile();
+    setTweet("");
+    textareaRef.current.value = null;
+  };
 
   const onChangeText = (e) => {
     setTweet(e.target.value);
@@ -49,7 +49,7 @@ const ScheduleTweet = () => {
     const time = scheduleRef.current.value;
     const text = encodeURIComponent(tweetText);
 
-    fetch(`http://localhost:5000/schedule?text=${text}&scheduleDate=${time}`)
+    fetch( backendUrl + `/schedule?text=${text}&scheduleDate=${time}`)
       .then((res) => res.text())
       .then((text) => toast.success(text))
       .catch((err) => {
@@ -58,6 +58,7 @@ const ScheduleTweet = () => {
       .finally(() => {
         setTweetLoading(false);
       });
+      reset()
   };
   return (
     <>
