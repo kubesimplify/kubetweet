@@ -1,16 +1,14 @@
 import React, { useRef, useState } from "react";
 import BeatLoader from "react-spinners/BeatLoader";
 import ClipLoader from "react-spinners/ClipLoader";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 const Retweet = () => {
-    const [tweetId, setTweetId] = useState("");
-    const [previewTweetText, setPreviewTweetText] = useState("");
-    const [retweetLoading, setRetweetLoading] = useState(false);
-    const [previewLoading, setPreviewLoading] = useState(false);
-    const tweetIdRef = useRef();
-
-
+  const [tweetId, setTweetId] = useState("");
+  const [previewTweetText, setPreviewTweetText] = useState("");
+  const [retweetLoading, setRetweetLoading] = useState(false);
+  const [previewLoading, setPreviewLoading] = useState(false);
+  const tweetIdRef = useRef();
 
   const backendUrl = "http://localhost:5000";
 
@@ -24,14 +22,13 @@ const Retweet = () => {
       .then((res) => {
         res.json();
         toast.success("Retweeted Successfully");
-        setRetweetLoading(false);
       })
       .catch((err) => {
-        setRetweetLoading(false);
         toast.error("Something went Wrong 😔");
+      })
+      .finally(() => {
+        setRetweetLoading(false);
       });
-    // setRetweetLoading(false);
-    // reset();
   };
 
   const previewTweet = () => {
@@ -48,10 +45,8 @@ const Retweet = () => {
           console.log("success" + res.data);
           setPreviewTweetText(res.data.text);
           toast.success("Tweet exist!");
-          setPreviewLoading(false);
         } else if (res.errors) {
           toast.error("Tweet don't exist!");
-          setPreviewLoading(false);
         }
       })
       .catch((err) => {
@@ -71,7 +66,6 @@ const Retweet = () => {
           className="p-2 w-56 border-2 border-black rounded-lg"
           onChange={(e) => setTweetId(e.target.value)}
           ref={tweetIdRef}
-          // defaultValue={new Date().toString().slice(16, 21)}
         />
         <span onClick={previewTweet} className="px-2 cursor-pointer">
           {previewLoading ? <ClipLoader color="white" size={20} /> : "Preview"}
