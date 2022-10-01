@@ -2,25 +2,26 @@ import React, { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import BeatLoader from "react-spinners/BeatLoader";
 
-const Tweet = () => {
+const ScheduleTweet = () => {
   const [tweetText, setTweet] = useState("");
   const [image, setImage] = useState(null);
   const [tweetLoading, setTweetLoading] = useState(false);
   const imageRef = useRef();
+  const scheduleRef = useRef();
   const textareaRef = useRef();
 
-  const backendUrl = "http://localhost:5000";
+//   const backendUrl = "http://localhost:5000";
   const resizeTextArea = () => {
     textareaRef.current.style.height = "auto";
     textareaRef.current.style.height =
       textareaRef.current.scrollHeight + 5 + "px";
   };
 
-  const reset = () => {
-    emptyFile();
-    setTweet("");
-    textareaRef.current.value = null;
-  };
+//   const reset = () => {
+//     emptyFile();
+//     setTweet("");
+//     textareaRef.current.value = null;
+//   };
 
   const onChangeText = (e) => {
     setTweet(e.target.value);
@@ -39,26 +40,24 @@ const Tweet = () => {
     setImage(null);
   };
 
-  const postTweet = async () => {
+  const ScheduleTweet = () => {
     if (textareaRef.current.value.length < 5) {
       toast.warn("Length of tweet is too short.");
       return;
     }
     setTweetLoading(true);
+    const time = scheduleRef.current.value;
     const text = encodeURIComponent(tweetText);
 
-    fetch(backendUrl + "/tweet?text=" + text)
-      .then((res) => res.json())
-      .then((res) => {
-        toast.success("Tweeted Successfully");
-      })
+    fetch(`http://localhost:5000/schedule?text=${text}&scheduleDate=${time}`)
+      .then((res) => res.text())
+      .then((text) => toast.success(text))
       .catch((err) => {
         toast.error("Something went Wrong 😔");
       })
       .finally(() => {
         setTweetLoading(false);
       });
-    reset();
   };
   return (
     <>
@@ -69,9 +68,7 @@ const Tweet = () => {
           onChange={onChangeText}
           ref={textareaRef}
           maxLength="280"
-          // rows="5"
           cols="35"
-          // siz
         />
       </label>
 
@@ -97,7 +94,17 @@ const Tweet = () => {
           />
         </div>
       )}
-
+      <label>
+        Schedule Tweet :{" "}
+        <input
+          className="p-2 border-2 border-black rounded-lg"
+          type="text"
+          ref={scheduleRef}
+          defaultValue={new Date().toLocaleString("en-US", {
+            timeZone: "Asia/Calcutta",
+          })}
+        />
+      </label>
       {tweetLoading ? (
         <div className="text-center">
           <BeatLoader color="white" />
@@ -105,13 +112,13 @@ const Tweet = () => {
       ) : (
         <button
           className="shadow-slate-600/40 shadow-lg bg-white text-blue-500 font-bold rounded-lg p-2"
-          onClick={() => postTweet()}
+          onClick={() => ScheduleTweet()}
         >
-          Post Tweet Now
+          Schedule Tweet
         </button>
       )}
     </>
   );
 };
 
-export default Tweet;
+export default ScheduleTweet;

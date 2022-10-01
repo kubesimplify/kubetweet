@@ -175,6 +175,51 @@ app.get("/getTweet", async (req, res) => {
   console.log("get tweet run successfully");
 });
 
+app.get("/schedule", async (req, res) => {
+
+  const { text, scheduleDate } = req.query;
+  console.log(scheduleDate);
+  // const scheduleDate = '9/27/2022, 7:24:10 AM'
+
+  const schedule = setInterval(() => {
+    const nDate = new Date().toLocaleString("en-US", {
+      timeZone: "Asia/Calcutta",
+    });
+    const scheduletweet = async () => {
+      let { data: tokens, error } = await supabase
+        .from("tokens")
+        .select("*")
+        .single();
+      const { Refresh_Tokens } = tokens;
+      console.log("status  : " + Refresh_Tokens);
+
+      const {
+        client: refreshedClient,
+        accessToken,
+        refreshToken: newRefreshToken,
+      } = await twitterClient.refreshOAuth2Token(Refresh_Tokens);
+      console.log("status refreshed clint");
+
+      const { data: updatedData, error: error1 } = await supabase
+        .from("tokens")
+        .update({
+          Access_tokens: accessToken,
+          Refresh_Tokens: newRefreshToken,
+        })
+        .eq("id", "1")
+        .single();
+     
+      const { data } = await refreshedClient.v2.tweet(text);
+      console.log("tweeted succesfully");
+    };
+    if (scheduleDate === nDate) {
+      scheduletweet();
+      clearInterval(schedule);
+    }
+  }, 1000);
+  res.send("Your tweet has scheduled on " + scheduleDate);
+});
+
 app.get("/thread", async (req, res) => {
   // take the old accessToken and refreshToken from DB
   let { data: tokens, error } = await supabase
