@@ -33,14 +33,15 @@ const twitterClient = new TwitterApi({
 
 const readTwitterClient = new TwitterApi(process.env.BEARER_TOKEN);
 
+// twitterAccountId should be userId of the your Twitter account
+const twitterAccountId = "1065215380157841408";
 
-// you have to enter the callback Url in twitter developer portal  before accessing below endpoints
+// You have to enter the same callback Url which you have enter in Twitter Developer Portal  before accessing below endpoints.
 const callbackURL = "http://127.0.0.1:5000/callback";
 
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
-
 
 app.get("/auth", async (req, res) => {
   // to generate the OAuth2.0 Link with these permissions and get the state and codeverifier token
@@ -158,9 +159,9 @@ app.get("/retweet", async (req, res) => {
     .eq("id", "1")
     .single();
 
-  // Take the TweetId and Retweet the tweet
+  // Take the TweetId from the request and Retweet the tweet
   const { id } = req.query;
-  const { data } = await refreshedClient.v2.retweet("1065215380157841408", id);
+  const { data } = await refreshedClient.v2.retweet(twitterAccountId, id);
 
   console.log("Retweeted succesfully");
   res.send(data);
@@ -180,38 +181,38 @@ app.get("/schedule", async (req, res) => {
   const { text, scheduleDate } = req.query;
   console.log(scheduleDate);
   // const scheduleDate = '9/27/2022, 7:24:10 AM'
+  const scheduletweet = async () => {
+    let { data: tokens, error } = await supabase
+      .from("tokens")
+      .select("*")
+      .single();
+    const { Refresh_Tokens } = tokens;
+    console.log("status  : " + Refresh_Tokens);
 
+    const {
+      client: refreshedClient,
+      accessToken,
+      refreshToken: newRefreshToken,
+    } = await twitterClient.refreshOAuth2Token(Refresh_Tokens);
+    console.log("status refreshed clint");
+
+    const { data: updatedData, error: error1 } = await supabase
+      .from("tokens")
+      .update({
+        Access_tokens: accessToken,
+        Refresh_Tokens: newRefreshToken,
+      })
+      .eq("id", "1")
+      .single();
+
+    const { data } = await refreshedClient.v2.tweet(text);
+    console.log("tweeted succesfully");
+  };
   const schedule = setInterval(() => {
     const nDate = new Date().toLocaleString("en-US", {
       timeZone: "Asia/Calcutta",
     });
-    const scheduletweet = async () => {
-      let { data: tokens, error } = await supabase
-        .from("tokens")
-        .select("*")
-        .single();
-      const { Refresh_Tokens } = tokens;
-      console.log("status  : " + Refresh_Tokens);
-
-      const {
-        client: refreshedClient,
-        accessToken,
-        refreshToken: newRefreshToken,
-      } = await twitterClient.refreshOAuth2Token(Refresh_Tokens);
-      console.log("status refreshed clint");
-
-      const { data: updatedData, error: error1 } = await supabase
-        .from("tokens")
-        .update({
-          Access_tokens: accessToken,
-          Refresh_Tokens: newRefreshToken,
-        })
-        .eq("id", "1")
-        .single();
-     
-      const { data } = await refreshedClient.v2.tweet(text);
-      console.log("tweeted succesfully");
-    };
+    
     if (scheduleDate === nDate) {
       scheduletweet();
       clearInterval(schedule);

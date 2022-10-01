@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import BeatLoader from "react-spinners/BeatLoader";
+import { backendUrl } from "../constants/constant";
 
 const Tweet = () => {
   const [tweetText, setTweet] = useState("");
@@ -9,7 +10,6 @@ const Tweet = () => {
   const imageRef = useRef();
   const textareaRef = useRef();
 
-  const backendUrl = "http://localhost:5000";
   const resizeTextArea = () => {
     textareaRef.current.style.height = "auto";
     textareaRef.current.style.height =
