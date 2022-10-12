@@ -39,7 +39,7 @@ Second, please look through the other issues and discussions to get a better ide
 
 - Frontend: [React](https://reactjs.org/)
 - CSS framework: [Tailwind](https://tailwindcss.com/)
-- Backend: [Supabase](https://supabase.com/)
+- Backend: ExpressJs,[Supabase](https://supabase.com/)
 
 
 ### Contributor Guidelines
