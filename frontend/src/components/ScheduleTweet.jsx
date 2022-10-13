@@ -5,11 +5,11 @@ import { backendUrl } from "../constants/constant";
 
 const ScheduleTweet = () => {
   const [tweetText, setTweet] = useState("");
-  const [image, setImage] = useState(null);
   const [tweetLoading, setTweetLoading] = useState(false);
-  const imageRef = useRef();
   const scheduleRef = useRef();
   const textareaRef = useRef();
+  // const [image, setImage] = useState(null);
+  // const imageRef = useRef();
 
   const resizeTextArea = () => {
     textareaRef.current.style.height = "auto";
@@ -18,7 +18,7 @@ const ScheduleTweet = () => {
   };
 
   const reset = () => {
-    emptyFile();
+    // emptyFile();
     setTweet("");
     textareaRef.current.value = null;
   };
@@ -28,17 +28,17 @@ const ScheduleTweet = () => {
     resizeTextArea();
   };
 
-  const onChangeImage = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      let img = e.target.files[0];
-      setImage(img);
-    }
-  };
+  // const onChangeImage = (e) => {
+  //   if (e.target.files && e.target.files[0]) {
+  //     let img = e.target.files[0];
+  //     setImage(img);
+  //   }
+  // };
 
-  const emptyFile = () => {
-    imageRef.current.value = null;
-    setImage(null);
-  };
+  // const emptyFile = () => {
+  //   imageRef.current.value = null;
+  //   setImage(null);
+  // };
 
   const ScheduleTweet = () => {
     if (textareaRef.current.value.length < 5) {

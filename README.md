@@ -94,3 +94,8 @@ npm start
 
 ## Now you can post Tweets and Retweets other tweets easily. 🥳🚀
 Make sure your both frontend and backend Application are running.
+
+
+## Things to keep in mind while deploying both frontend and backend 
+1. Change the Deployed Backend Url in `frontend/src/constants/constant.js` folder
+1. Add the Deployed frontend Url in `backend/server.js` in whitelist on line 12 and remove others Urls.

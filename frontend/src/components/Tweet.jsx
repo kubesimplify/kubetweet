@@ -5,9 +5,9 @@ import { backendUrl } from "../constants/constant";
 
 const Tweet = () => {
   const [tweetText, setTweet] = useState("");
-  const [image, setImage] = useState(null);
+  // const [image, setImage] = useState(null);
   const [tweetLoading, setTweetLoading] = useState(false);
-  const imageRef = useRef();
+  // const imageRef = useRef();
   const textareaRef = useRef();
 
   const resizeTextArea = () => {
@@ -17,7 +17,7 @@ const Tweet = () => {
   };
 
   const reset = () => {
-    emptyFile();
+    // emptyFile();
     setTweet("");
     textareaRef.current.value = null;
   };
@@ -35,10 +35,10 @@ const Tweet = () => {
   //   }
   // };
 
-  const emptyFile = () => {
-    imageRef.current.value = null;
-    setImage(null);
-  };
+  // const emptyFile = () => {
+  //   imageRef.current.value = null;
+  //   setImage(null);
+  // };
 
   const postTweet = async () => {
     if (textareaRef.current.value.length < 5) {
