@@ -47,7 +47,15 @@ app.get("/auth", async (req, res) => {
   // to generate the OAuth2.0 Link with these permissions and get the state and codeverifier token
   const { url, codeVerifier, state } = twitterClient.generateOAuth2AuthLink(
     callbackURL,
-    { scope: ["tweet.read", "tweet.write", "users.read", "offline.access"] }
+    {
+      scope: [
+        "tweet.read",
+        "tweet.write",
+        "users.read",
+        "offline.access",
+        "like.write",
+      ],
+    }
   );
 
   // store both the code and codeverifier code on supabase database
@@ -110,7 +118,6 @@ app.get("/tweet", async (req, res) => {
     .select("*")
     .single();
   const { Refresh_Tokens } = tokens;
-  console.log("status  : " + Refresh_Tokens);
 
   // Generate new Refresh token using old refresh token
   const {
@@ -118,7 +125,6 @@ app.get("/tweet", async (req, res) => {
     accessToken,
     refreshToken: newRefreshToken,
   } = await twitterClient.refreshOAuth2Token(Refresh_Tokens);
-  console.log("status refreshed clint");
 
   // Update the refresh accessToken and newRefreshToken in DB
   const { data: updatedData, error: error1 } = await supabase
@@ -129,12 +135,44 @@ app.get("/tweet", async (req, res) => {
 
   // Take the tweet text from request
   const { text } = req.query;
-  console.log(text);
 
   // tweet with text
   const { data } = await refreshedClient.v2.tweet(text);
-  console.log("Tweeted succesfully");
   res.send(data);
+});
+
+app.get("/like", async (req, res) => {
+  // take the old accessToken and refreshToken from DB
+  let { data: tokens, error } = await supabase
+    .from("tokens")
+    .select("*")
+    .single();
+  const { Refresh_Tokens } = tokens;
+
+  // Generate new Refresh token using old refresh token
+  const {
+    client: refreshedClient,
+    accessToken,
+    refreshToken: newRefreshToken,
+  } = await twitterClient.refreshOAuth2Token(Refresh_Tokens);
+
+  // Update the refresh accessToken and newRefreshToken in DB
+  const { data: updatedData, error: error1 } = await supabase
+    .from("tokens")
+    .update({ Access_tokens: accessToken, Refresh_Tokens: newRefreshToken })
+    .eq("id", "1")
+    .single();
+
+  try {
+    // Take the tweet id from request
+    const { id } = req.query;
+
+    // Like the tweet
+    const data = await refreshedClient.v2.like(twitterAccountId, id);
+    res.send(data);
+  } catch (error) {
+    res.send(error);
+  }
 });
 
 app.get("/retweet", async (req, res) => {
@@ -160,26 +198,25 @@ app.get("/retweet", async (req, res) => {
     .single();
 
   // Take the TweetId from the request and Retweet the tweet
-  const { id } = req.query;
-  const { data } = await refreshedClient.v2.retweet(twitterAccountId, id);
-
-  console.log("Retweeted succesfully");
-  res.send(data);
+  try {
+    const { id } = req.query;
+    const { data } = await refreshedClient.v2.retweet(twitterAccountId, id);
+    res.send(data);
+  } catch (error) {
+    res.send(error);
+  }
 });
 
 app.get("/getTweet", async (req, res) => {
   const { id } = req.query;
   // const id = "1573134820435447808"
   const data = await readTwitterClient.v2.singleTweet(id);
-  console.log(data);
   res.send(data);
-  console.log("get tweet run successfully");
 });
 
 app.get("/schedule", async (req, res) => {
-
   const { text, scheduleDate } = req.query;
-  console.log(scheduleDate);
+  console.log( "Scheduled Tweet " + scheduleDate);
   // const scheduleDate = '9/27/2022, 7:24:10 AM'
   const scheduletweet = async () => {
     let { data: tokens, error } = await supabase
@@ -187,14 +224,12 @@ app.get("/schedule", async (req, res) => {
       .select("*")
       .single();
     const { Refresh_Tokens } = tokens;
-    console.log("status  : " + Refresh_Tokens);
 
     const {
       client: refreshedClient,
       accessToken,
       refreshToken: newRefreshToken,
     } = await twitterClient.refreshOAuth2Token(Refresh_Tokens);
-    console.log("status refreshed clint");
 
     const { data: updatedData, error: error1 } = await supabase
       .from("tokens")
@@ -206,13 +241,12 @@ app.get("/schedule", async (req, res) => {
       .single();
 
     const { data } = await refreshedClient.v2.tweet(text);
-    console.log("tweeted succesfully");
   };
   const schedule = setInterval(() => {
     const nDate = new Date().toLocaleString("en-US", {
       timeZone: "Asia/Calcutta",
     });
-    
+
     if (scheduleDate === nDate) {
       scheduletweet();
       clearInterval(schedule);
@@ -249,8 +283,6 @@ app.get("/thread", async (req, res) => {
     "Twitter is a fantastic social network. Look at this:",
     "This thread is automatically made with twitter-api-v2 :D",
   ]);
-  console.log(data);
-  console.log("tweeted succesfully");
   res.send(data);
 });
 

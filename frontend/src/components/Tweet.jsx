@@ -27,12 +27,13 @@ const Tweet = () => {
     resizeTextArea();
   };
 
-  const onChangeImage = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      let img = e.target.files[0];
-      setImage(img);
-    }
-  };
+  
+  // const onChangeImage = (e) => {
+  //   if (e.target.files && e.target.files[0]) {
+  //     let img = e.target.files[0];
+  //     setImage(img);
+  //   }
+  // };
 
   const emptyFile = () => {
     imageRef.current.value = null;
@@ -60,6 +61,7 @@ const Tweet = () => {
       });
     reset();
   };
+
   return (
     <>
       <label>
@@ -69,13 +71,13 @@ const Tweet = () => {
           onChange={onChangeText}
           ref={textareaRef}
           maxLength="280"
-          // rows="5"
           cols="35"
-          // siz
         />
       </label>
 
-      <label>
+
+    {/* media upload option will be added in future */}
+      {/* <label>
         Upload File :{" "}
         <input
           type="file"
@@ -83,9 +85,9 @@ const Tweet = () => {
           ref={imageRef}
           onChange={onChangeImage}
         />
-      </label>
+      </label> */}
 
-      {image && (
+      {/* {image && (
         <div className="relative">
           <span className="cursor-pointer" onClick={emptyFile}>
             X
@@ -96,7 +98,7 @@ const Tweet = () => {
             alt=""
           />
         </div>
-      )}
+      )} */}
 
       {tweetLoading ? (
         <div className="text-center">

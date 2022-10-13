@@ -1,5 +1,5 @@
 import React from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { supabase } from "../supabaseClient";
 
 const Logout = () => {
@@ -21,17 +21,7 @@ const Logout = () => {
       >
         Logout
       </button>
-      <ToastContainer
-        position="top-center"
-        autoClose={2500}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable={false}
-        pauseOnHover
-      />
+      
     </>
   );
 };

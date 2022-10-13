@@ -9,8 +9,31 @@ const Retweet = () => {
   const [previewTweetText, setPreviewTweetText] = useState("");
   const [retweetLoading, setRetweetLoading] = useState(false);
   const [previewLoading, setPreviewLoading] = useState(false);
+  const [likeLoading, setLikeLoading] = useState(false);
   const tweetIdRef = useRef();
 
+  const likeTweet = async () => {
+    if (tweetIdRef.current.value.length < 5) {
+      toast.warn("Please enter valid Tweet ID!");
+      return;
+    }
+    setLikeLoading(true);
+    fetch(backendUrl + "/like?id=" + tweetId).then((res)=>res.json())
+      .then((res) => {
+        if (res.data) {
+          toast.success("Tweet Liked!");
+        } else if (res.errors) {
+          toast.error(res.error.errors[0].message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Something went Wrong 😔");
+      })
+      .finally(() => {
+        setLikeLoading(false);
+      });
+  };
 
   const retweet = async () => {
     if (tweetIdRef.current.value.length < 5) {
@@ -18,10 +41,13 @@ const Retweet = () => {
       return;
     }
     setRetweetLoading(true);
-    fetch(backendUrl + "/retweet?id=" + tweetId)
+    fetch(backendUrl + "/retweet?id=" + tweetId).then((res)=>res.json())
       .then((res) => {
-        res.json();
-        toast.success("Retweeted Successfully");
+        if (res.retweeted) {
+          toast.success("Retweeted Successfully!");
+        } else if (res.error) {
+          toast.error(res.error.errors[0].message);
+        }
       })
       .catch((err) => {
         toast.error("Something went Wrong 😔");
@@ -42,11 +68,10 @@ const Retweet = () => {
       .then((res) => res.json())
       .then((res) => {
         if (res.data) {
-          console.log("success" + res.data);
           setPreviewTweetText(res.data.text);
           toast.success("Tweet exist!");
         } else if (res.errors) {
-          toast.error("Tweet don't exist!");
+          toast.error(res.errors[0].detail);
         }
       })
       .catch((err) => {
@@ -73,6 +98,8 @@ const Retweet = () => {
       </label>
 
       {previewTweetText}
+
+      {/* Retweet Button */}
       {retweetLoading ? (
         <div className="text-center">
           <BeatLoader color="white" />
@@ -83,6 +110,20 @@ const Retweet = () => {
           onClick={() => retweet()}
         >
           Retweet Tweet
+        </button>
+      )}
+
+      {/* Like Button */}
+      {likeLoading ? (
+        <div className="text-center">
+          <BeatLoader color="white" />
+        </div>
+      ) : (
+        <button
+          className="shadow-slate-600/40 shadow-lg bg-white text-blue-500 font-bold rounded-lg p-2"
+          onClick={() => likeTweet()}
+        >
+          Like Tweet
         </button>
       )}
     </>
