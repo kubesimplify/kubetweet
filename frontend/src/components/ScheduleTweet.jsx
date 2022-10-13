@@ -73,7 +73,8 @@ const ScheduleTweet = () => {
         />
       </label>
 
-      <label>
+      {/* media upload feature In progress */}
+      {/* <label>
         Upload File :{" "}
         <input
           type="file"
@@ -94,7 +95,8 @@ const ScheduleTweet = () => {
             alt=""
           />
         </div>
-      )}
+      )} */}
+
       <label>
         Schedule Tweet :{" "}
         <input
@@ -106,6 +108,7 @@ const ScheduleTweet = () => {
           })}
         />
       </label>
+      
       {tweetLoading ? (
         <div className="text-center">
           <BeatLoader color="white" />
