@@ -18,13 +18,11 @@ function App() {
 
   return (
     <>
-      <div>
         {!session ? (
           <Login />
         ) : (
           <Home />
         )}
-      </div>
     </>
   );
 }
