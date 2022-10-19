@@ -4,6 +4,7 @@ import Logout from "./Logout";
 import Tweet from "./Tweet";
 import Retweet from "./Retweet";
 import ScheduleTweet from "./ScheduleTweet";
+import Thread from "./Thread";
 
 const Home = () => {
   const [method, setMethod] = useState("Tweet");
@@ -12,13 +13,14 @@ const Home = () => {
     { name: "Tweet", component: <Tweet /> },
     { name: "Retweet", component: <Retweet /> },
     { name: "Schedule", component: <ScheduleTweet /> },
+    { name: "Thread", component: <Thread /> },
   ];
 
   return (
     <>
       <Logout />
       <div className=" min-h-[100vh] items-start gap-2 px-[2vw] py-[5vw] bg-blue-400">
-        <div className="mb-8 text-center mt-12">
+        <div className="mb-1 justify-center mt-10 flex flex-wrap">
           {featureComponent.map((feature, i) => (
             <span
               key={i}
@@ -30,7 +32,7 @@ const Home = () => {
                   ? { color: "black", borderBottomColor: "black" }
                   : { color: "#60a5fa" }
               }
-              className="m-2 bg-white rounded-lg font-bold p-2 border-b-4 border-white cursor-pointer"
+              className="m-2 text-sm bg-white rounded-lg font-bold p-2 border-b-4 border-white cursor-pointer"
             >
               {feature.name}
             </span>
@@ -38,7 +40,7 @@ const Home = () => {
         </div>
 
         <div className="flex justify-center ">
-          <div className=" border-2 rounded-2xl p-2 max-w-xl">
+          <div className=" border-2 rounded-2xl p-2 max-w-2xl">
             <h1 className="text-center mb-2 text-2xl">KubeTweet</h1>
 
             {featureComponent.map((feature) => (

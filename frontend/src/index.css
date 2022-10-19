@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .button {
+        @apply shadow-slate-600/40 shadow-lg bg-white text-blue-500 font-bold rounded-lg p-2
+    }
+  }
