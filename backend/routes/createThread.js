@@ -5,16 +5,16 @@ const router = Router();
 router.get("/", async (req, res) => {
   const refreshedClient = await getRefreshClient();
 
-  // Take the tweet text from request
-  const { text } = req.query;
+  // Take the tweetdata text from request
+  const { threadData } = req.query;
+  const jsonData = JSON.parse(threadData);
 
-  // tweet with text
-  const { data } = await refreshedClient.v2.tweetThread([
-    "Hello, lets talk about Twitter!",
-    "Twitter is a fantastic social network. Look at this:",
-    "This thread is automatically made with twitter-api-v2 :D",
-  ]);
-  res.send(data);
+  try {
+    const data = await refreshedClient.v2.tweetThread(jsonData);
+    res.json({text: "Thread Posted Successfully"});
+  } catch (error) {
+    res.status(403).send(error);
+  }
 });
 
 module.exports = router;
