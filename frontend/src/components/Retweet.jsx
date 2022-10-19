@@ -106,7 +106,7 @@ const Retweet = () => {
         </div>
       ) : (
         <button
-          className="shadow-slate-600/40 shadow-lg bg-white text-blue-500 font-bold rounded-lg p-2"
+          className="button"
           onClick={() => retweet()}
         >
           Retweet Tweet
@@ -120,7 +120,7 @@ const Retweet = () => {
         </div>
       ) : (
         <button
-          className="shadow-slate-600/40 shadow-lg bg-white text-blue-500 font-bold rounded-lg p-2"
+          className="button"
           onClick={() => likeTweet()}
         >
           Like Tweet

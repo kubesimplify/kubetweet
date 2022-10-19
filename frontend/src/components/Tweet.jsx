@@ -9,6 +9,7 @@ const Tweet = () => {
   const [tweetLoading, setTweetLoading] = useState(false);
   // const imageRef = useRef();
   const textareaRef = useRef();
+  const screenWidth = window.innerWidth > 425;
 
   const resizeTextArea = () => {
     textareaRef.current.style.height = "auto";
@@ -71,7 +72,8 @@ const Tweet = () => {
           onChange={onChangeText}
           ref={textareaRef}
           maxLength="280"
-          cols="35"
+          autoFocus
+          cols={screenWidth ? 55 : 35}
         />
       </label>
 
@@ -106,7 +108,7 @@ const Tweet = () => {
         </div>
       ) : (
         <button
-          className="shadow-slate-600/40 shadow-lg bg-white text-blue-500 font-bold rounded-lg p-2"
+          className="button"
           onClick={() => postTweet()}
         >
           Post Tweet Now
