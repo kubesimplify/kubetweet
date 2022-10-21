@@ -65,7 +65,7 @@ SUPABASE_PROJECT_ANON_API_KEY= <YOUR_SUPABASE_PROJECT_ANON_KEY>
 ```
 
 
-### 7. Go to the `server.js` file in the backend folder and add your TwitterAccountId on line 37
+### 7. Go to the `config.js` file in the backend folder and add your TwitterAccountId on line 17
 
 You can get your Twitter User Id from [here](https://tweeterid.com/) in case you don't know.
 
