@@ -13,6 +13,7 @@ router.get("/", async (req, res) => {
         "users.read",
         "offline.access",
         "like.write",
+        "follows.write",
       ],
     }
   );

@@ -29,14 +29,15 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 
-app.use("/auth", require('./routes/auth'));
-app.use("/callback", require('./routes/callback'));
-app.use("/tweet", require('./routes/tweet'));
-app.use("/like", require('./routes/like'));
+app.use("/auth", require("./routes/auth"));
+app.use("/callback", require("./routes/callback"));
+app.use("/tweet", require("./routes/tweet"));
+app.use("/like", require("./routes/like"));
 app.use("/retweet", require("./routes/retweet"));
 app.use("/getTweet", require("./routes/getTweet"));
-app.use("/schedule", require('./routes/schedule'));
-app.use("/thread", require('./routes/createThread'));
+app.use("/schedule", require("./routes/schedule"));
+app.use("/thread", require("./routes/createThread"));
+app.use("/follow", require("./routes/follow"));
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
