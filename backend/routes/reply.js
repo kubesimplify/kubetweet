@@ -5,11 +5,11 @@ const router = Router();
 router.get("/", async (req, res) => {
   const refreshedClient = await getRefreshClient();
 
-  // Take the User Id from request
+  // Take the Reply and Tweet Id from request
   const { replyText } = req.query;
   const { targetTweetId } = req.query;
 
-  // follow with UserId
+  // Rwply with TweetId
   try {
     const { data } = await refreshedClient.v2.reply(replyText, targetTweetId);
     res.send(data);
