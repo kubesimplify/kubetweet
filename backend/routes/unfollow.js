@@ -6,7 +6,6 @@ const router = Router();
 router.get("/", async (req, res) => {
 
     const refreshedClient = await getRefreshClient();
-    console.log(refreshedClient);
   // Take the User Id from request
   const { targetUserId } = req.query;
 
@@ -17,7 +16,6 @@ router.get("/", async (req, res) => {
       targetUserId
     );
       res.send(data);
-      console.log(data)
   } catch (error) {
     console.log(error);
     res.send(error.data.errors[0].message);
