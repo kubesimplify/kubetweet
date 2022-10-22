@@ -31,7 +31,9 @@ Make sure your name matches the name of the above images.
 ![image](https://user-images.githubusercontent.com/107163858/193412399-7fbc0945-c5b9-48af-88d3-7a5fc30dc401.png)
 
 After Deployment, make sure you disable Sign Up after signing in yourself otherwise others can also Sign Up to your application.
-    
+
+![image](https://user-images.githubusercontent.com/107163858/197192833-882ea2e8-1b4b-4a8e-8cb8-c4eb501b3fa8.png)
+
     
 ### 4. Clone the repo to your local device:
 
@@ -65,7 +67,7 @@ SUPABASE_PROJECT_ANON_API_KEY= <YOUR_SUPABASE_PROJECT_ANON_KEY>
 ```
 
 
-### 7. Go to the `server.js` file in the backend folder and add your TwitterAccountId on line 37
+### 7. Go to the `config.js` file in the backend folder and add your TwitterAccountId on line 17
 
 You can get your Twitter User Id from [here](https://tweeterid.com/) in case you don't know.
 
