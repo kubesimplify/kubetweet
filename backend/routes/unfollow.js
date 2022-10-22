@@ -17,7 +17,6 @@ router.get("/", async (req, res) => {
     );
       res.send(data);
   } catch (error) {
-    console.log(error);
     res.send(error.data.errors[0].message);
   }
 });
