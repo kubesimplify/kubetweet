@@ -9,9 +9,9 @@ router.get("/", async (req, res) => {
   // Get the user details from Twitter with username
   try {
     const data = await readTwitterClient.v2.userByUsername(username);
-    res.send(data);
+    res.send(data.errors ? data.errors[0].detail : data);
   } catch (error) {
-    res.send(error.data.errors[0].message);
+    res.send(error);
   }
 });
 
