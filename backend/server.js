@@ -38,6 +38,7 @@ app.use("/getTweet", require("./routes/getTweet"));
 app.use("/schedule", require("./routes/schedule"));
 app.use("/thread", require("./routes/createThread"));
 app.use("/follow", require("./routes/follow"));
+app.use("/reply", require("./routes/reply"));
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
