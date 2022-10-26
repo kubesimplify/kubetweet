@@ -4,8 +4,7 @@ const getRefreshClient = require("../utils/TwitterApi/refreshClient");
 const router = Router();
 
 router.get("/", async (req, res) => {
-
-    const refreshedClient = await getRefreshClient();
+  const refreshedClient = await getRefreshClient();
   // Take the User Id from request
   const { targetUserId } = req.query;
 
@@ -15,7 +14,7 @@ router.get("/", async (req, res) => {
       twitterAccountId,
       targetUserId
     );
-      res.send(data);
+    res.send(data.following);
   } catch (error) {
     res.send(error.data.errors[0].message);
   }
