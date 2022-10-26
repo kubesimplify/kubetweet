@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
     const { data } = await refreshedClient.v2.reply(replyText, targetTweetId);
     res.send(data);
   } catch (error) {
-    res.send(error.data.detail);
+    res.status(400).send(error.data.detail);
   }
 });
 
