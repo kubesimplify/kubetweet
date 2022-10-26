@@ -12,12 +12,7 @@ router.get("/", async (req, res) => {
 
     // Unlike the tweet
     const data = await refreshedClient.v2.unlike(twitterAccountId, id);
-
-    if (data.data.liked == false) {
-      res.send(true);
-    } else {
-      res.send(false);
-    }
+    res.send(data)
   } catch (error) {
     res.send(error);
   }
