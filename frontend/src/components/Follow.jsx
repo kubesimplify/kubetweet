@@ -51,7 +51,21 @@ const Follow = () => {
       .finally(() => setFollowLoading(false));
   };
 
-  
+  const unfollowUser = () => {
+    if (!userId) {
+      toast.warn("Please enter correct username");
+      return;
+    }
+    setUnfollowLoading(true);
+    fetch(`${backendUrl}/unfollow?targetUserId=${userId}`)
+      .then((res) => res.text())
+      .then((data) => {
+        if (data === "false") {
+          toast.success(`Unfollowed ${username} Successfully!`);
+        }
+      })
+      .finally(() => setUnfollowLoading(false));
+  };
 
   return (
     <>
@@ -83,7 +97,15 @@ const Follow = () => {
         </button>
       )}
 
-      
+      {unfollowLoading ? (
+        <div className="text-center">
+          <BeatLoader color="white" />
+        </div>
+      ) : (
+        <button className="button" onClick={unfollowUser}>
+          Unfollow {username ? username : "user"}
+        </button>
+      )}
     </>
   );
 };
