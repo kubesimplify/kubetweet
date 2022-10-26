@@ -5,6 +5,7 @@ import Tweet from "./Tweet";
 import Retweet from "./Retweet";
 import ScheduleTweet from "./ScheduleTweet";
 import Thread from "./Thread";
+import Follow from "./Follow";
 
 const Home = () => {
   const [method, setMethod] = useState("Tweet");
@@ -14,6 +15,7 @@ const Home = () => {
     { name: "Retweet", component: <Retweet /> },
     { name: "Schedule", component: <ScheduleTweet /> },
     { name: "Thread", component: <Thread /> },
+    { name: "Follow", component: <Follow /> },
   ];
 
   return (
