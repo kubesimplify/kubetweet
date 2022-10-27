@@ -10,7 +10,6 @@ const Retweet = () => {
   const [retweetLoading, setRetweetLoading] = useState(false);
   const [previewLoading, setPreviewLoading] = useState(false);
   const [likeLoading, setLikeLoading] = useState(false);
-  const [unlikeLoading, setUnlikeLoading] = useState(false);
   const tweetIdRef = useRef();
 
   const likeTweet = async () => {
@@ -83,29 +82,6 @@ const Retweet = () => {
         setPreviewLoading(false);
       });
   };
-
-  const unlikeTweet = async () => {
-    if (tweetIdRef.current.value.length < 5) {
-      toast.warn("Please enter valid Tweet ID!");
-      return;
-    }
-    setLikeLoading(true);
-    fetch(backendUrl + "/unlike?id=" + tweetId).then((res)=>res.json())
-      .then((res) => {
-        if (res.data) {
-          toast.success("Tweet Unliked!");
-        } else if (res.errors) {
-          toast.error(res.error.errors[0].message);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Something went Wrong 😔");
-      })
-      .finally(() => {
-        setUnlikeLoading(false);
-      });
-  };
   return (
     <>
       <label>
@@ -148,20 +124,6 @@ const Retweet = () => {
           onClick={() => likeTweet()}
         >
           Like Tweet
-        </button>
-      )}
-
-      {/* unLike Button */}
-      {unlikeLoading ? (
-        <div className="text-center">
-          <BeatLoader color="white" />
-        </div>
-      ) : (
-        <button
-          className="button"
-          onClick={() => unlikeTweet()}
-        >
-          Unlike Tweet
         </button>
       )}
     </>
