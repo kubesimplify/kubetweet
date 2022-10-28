@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
     const { data } = await refreshedClient.v2.deleteTweet(id);
     res.send(data);
   } catch (error) {
-    res.send(error);
+    res.send(error.data.detail);
   }
 });
 
