@@ -42,6 +42,7 @@ app.use("/reply", require("./routes/reply"));
 app.use("/unfollow", require("./routes/unfollow"));
 app.use("/userid", require("./routes/userid"));
 app.use("/unlike", require("./routes/unlike"));
+app.use("/deleteTweet", require("./routes/deleteTweet"));
 
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
