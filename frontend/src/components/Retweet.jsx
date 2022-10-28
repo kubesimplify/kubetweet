@@ -89,12 +89,12 @@ const Retweet = () => {
       toast.warn("Please enter valid Tweet ID!");
       return;
     }
-    setLikeLoading(true);
+    setUnlikeLoading(true);
     fetch(backendUrl + "/unlike?id=" + tweetId).then((res)=>res.json())
       .then((res) => {
         if (res.data) {
           toast.success("Tweet Unliked!");
-        } else if (res.errors) {
+        } else if (res.error) {
           toast.error(res.error.errors[0].message);
         }
       })
