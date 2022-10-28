@@ -42,7 +42,6 @@ app.use("/reply", require("./routes/reply"));
 app.use("/unfollow", require("./routes/unfollow"));
 app.use("/userid", require("./routes/userid"));
 app.use("/unlike", require("./routes/unlike"));
-app.use("/bookmark", require("./routes/bookmark"));
 app.use("/unbookmark", require("./routes/unbookmark"));
 
 app.listen(port, () => {
