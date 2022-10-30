@@ -1,0 +1,60 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: environemt-file-backend
+type: Opaque
+stringData:
+  .env: |
+    CLIENT_ID = <YOUR_TWITTER_CLIENT_ID>
+    CLIENT_SECRET = <YOUR_TWITTER_CLIENT_SECRET>
+    BEARER_TOKEN = <YOUR_TWITTER_BEARER_TOKEN>
+
+    SUPABASE_PROJECT_URL= <YOUR_SUPABASE_PROJECT_URL>
+    SUPABASE_PROJECT_ANON_API_KEY= <YOUR_SUPABASE_PROJECT_ANON_KEY>
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubetweets-frontend-svc
+spec:
+  selector:
+    app: kubetweets-f
+  ports:
+  - port: 5000
+    targetPort: 5000
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubetweets-backend
+spec:
+  selector:
+    matchLabels:
+      app: kubetweets-b
+  template:
+    metadata:
+      labels:
+        app: kubetweets-b
+    spec:
+      containers:
+      - name: kubetweets-b
+        image: <Image>
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        volumeMounts:
+        - name: env
+          readOnly: true
+          mountPath: "/app"
+        ports:
+        - containerPort: 5000
+      volumes:
+      - name: env
+        secret:
+          secretName: environemt-file-backend
