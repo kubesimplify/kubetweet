@@ -1,4 +1,3 @@
-
 const { Router } = require("express");
 const getRefreshClient = require("../utils/TwitterApi/refreshClient");
 const router = Router();
