@@ -1,10 +1,9 @@
 ---
 apiVersion: v1
-kind: Secret
+kind: ConfigMap
 metadata:
   name: environemt-file-frontend
-type: Opaque
-stringData:
+data:
   .env: |
     REACT_APP_SUPABASE_URL= <YOUR_SUPABASE_PROJECT_URL>
     REACT_APP_SUPABASE_ANON_KEY= <YOUR_SUPABASE_PROJECT_ANON_KEY>
@@ -59,18 +58,18 @@ spec:
     spec:
       containers:
       - name: kubetweets-f
-        image: abcd
+        image: <image_frontend>
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
         volumeMounts:
         - name: env
-          readOnly: true
-          mountPath: "/app"
+          mountPath: /app/.env
+          subPath: .env
         ports:
         - containerPort: 3000
       volumes:
       - name: env
-        secret:
-          secretName: environemt-file-frontend
+        configMap:
+          name: environemt-file-frontend
